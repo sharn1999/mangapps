@@ -1,5 +1,7 @@
 import { useState} from 'react';
 import {Link} from 'react-router-dom';
+import ErrorBounderySearch from '../errorBoundary/ErrorBoundarySearch';
+
 
 import './header.sass';
 import moon from '../../resources/img/moon.svg';
@@ -14,7 +16,7 @@ const Header = (props) => {
 
 
     const showDropContent = drop ? <DropContent></DropContent> : null;
-    const showSearch = search ? <SearchContent search = {setSearch}></SearchContent> : null
+    const showSearch = search ? <ErrorBounderySearch><SearchContent search = {setSearch}></SearchContent></ErrorBounderySearch> : null
     return (
         <header>
             <div className="container">
