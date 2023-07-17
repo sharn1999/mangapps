@@ -5,7 +5,7 @@ import './popularTop.sass';
 
 const PopularTop = () => {
     const [PopList, setPopList] = useState([]);
-    const {getPopularManga} = useMangaService();
+    const {getPopularManga, loading} = useMangaService();
 
     useEffect(() => {
         getPopularManga()
@@ -44,7 +44,7 @@ const PopularTop = () => {
         <div className="mangaPop__list manga__list">
             <div className="mangaPop__list-title manga__list-title">Популярная Манга</div>
             <hr />
-            {items}
+            {!loading ? items : <div>Загрузка</div>}
         </div>
     )
 }

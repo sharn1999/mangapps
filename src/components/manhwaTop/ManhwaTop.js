@@ -5,7 +5,7 @@ import useMangaService from '../../services/MangaService';
 
 const ManhwaTop = () => {
     const [charList, setCharList] = useState([]);
-    const {getManhwa} = useMangaService();
+    const {getManhwa, loading} = useMangaService();
 
     useEffect(() => {
         onRequest();
@@ -50,7 +50,7 @@ const ManhwaTop = () => {
         <div className="manga__list">
             <div className="manga__list-title">Топ 50 Манхв по рейтингу</div>
             <hr />
-            {items}
+            {!loading ? items : <div>Загрузка</div>}
         </div>
     )
 }

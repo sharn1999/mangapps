@@ -2,60 +2,58 @@ import {useState, useEffect} from 'react';
 import { useParams } from 'react-router-dom';
 import '../random/random.sass';
 import useMangaService from '../../services/MangaService';
+import ErrorBoundery from '../errorBoundary/ErrorBoundary';
+
 
 const SinglePage = () => {
     const {mangaId} = useParams();
     const [char, setChar] = useState([]);
-    const {getOneManga} = useMangaService();
+    const {getOneManga, loading} = useMangaService();
 
     useEffect(() => {
         onRequest();
     }, [mangaId]);
 
     const onRequest = () => {
-
         getOneManga(mangaId)
             .then(setChar);
     };
-
     return (
         <div className="manga__list random__list">
-            {!char.data ? <View arr = {char}></View> : <div>{char.data}</div>}
+            {!loading ? <ErrorBoundery><View arr = {char}></View></ErrorBoundery> : <div>Загрузка</div>}
         </div>
     )
 };
 
 const View = ({arr}) => {
     var genres = '', serialization = '', authors = '', fav = '', members = '', synopsis = '', popularity = '', ranked = '', type ='', chapters = '', volumes='', status='', published='', score='', title='';
-    try{
-        if(arr.information.genres !== undefined){
-            for(const item of arr.information.genres){
-                genres = genres + ' ' + item.name;
-            }
+    if(arr.information.genres !== undefined){
+        for(const item of arr.information.genres){
+            genres = genres + ' ' + item.name;
         }
-        if(arr.information.serialization !== undefined){
-            for(const item of arr.information.serialization){
-                serialization = serialization + ' ' + item.name;
-            }
+    }
+    if(arr.information.serialization !== undefined){
+        for(const item of arr.information.serialization){
+            serialization = serialization + ' ' + item.name;
         }
-        if(arr.information.authors !== undefined){
-            for(const item of arr.information.authors){
-                authors = authors + ' ' + item.name;
-            }
+    }
+    if(arr.information.authors !== undefined){
+        for(const item of arr.information.authors){
+            authors = authors + ' ' + item.name;
         }
-        fav = arr.statistics.favorites;
-        members = arr.statistics.members;
-        popularity = arr.statistics.popularity;
-        synopsis = arr.synopsis;
-        ranked = arr.statistics.ranked;
-        type = arr.information.type[0].name;
-        chapters = arr.information.chapters;
-        volumes = arr.information.volumes;
-        status = arr.information.status;
-        published = arr.information.published;
-        score = arr.statistics.score;
-        title = arr.title_ov;
-    } catch{}
+    }
+    fav = arr.statistics.favorites;
+    members = arr.statistics.members;
+    popularity = arr.statistics.popularity;
+    synopsis = arr.synopsis;
+    ranked = arr.statistics.ranked;
+    type = arr.information.type[0].name;
+    chapters = arr.information.chapters;
+    volumes = arr.information.volumes;
+    status = arr.information.status;
+    published = arr.information.published;
+    score = arr.statistics.score;
+    title = arr.title_ov;
 
     return (
         <ul className="manga__grid">
